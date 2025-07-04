@@ -45,6 +45,8 @@ return {
 			local cmp_format = require("lsp-zero").cmp_format({ details = true })
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip.loaders.from_snipmate").lazy_load()
+			require("luasnip").filetype_extend("rust", { "rustdoc" })
+			require("luasnip").filetype_extend("python", { "pydoc" })
 			cmp.setup({
 				preselect = "item",
 				completion = {
