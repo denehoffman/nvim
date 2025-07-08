@@ -15,6 +15,7 @@ return {
 					},
 				},
 			},
+			scroll = {},
 			terminal = {},
 			toggle = {},
 			zen = {},
