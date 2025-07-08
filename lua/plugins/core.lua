@@ -217,6 +217,11 @@ return {
 			"MunifTanjim/nui.nvim",
 			"rcarriga/nvim-notify",
 		},
+		config = function()
+			require("noice").setup({
+				resets = { inc_rename = true },
+			})
+		end,
 	},
 	{
 		"folke/trouble.nvim",
@@ -229,6 +234,16 @@ return {
 		"vladdoster/remember.nvim",
 		config = function()
 			require("remember")
+		end,
+	},
+	{
+		"smjonas/inc-rename.nvim",
+		opts = {},
+	},
+	{
+		"MagicDuck/grug-far.nvim",
+		config = function()
+			require("grug-far").setup({})
 		end,
 	},
 }

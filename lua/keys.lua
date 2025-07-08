@@ -30,6 +30,14 @@ wk.add({
 	{ "<leader>ff", "<cmd>FzfLua files<cr>", desc = "find file", mode = "n" },
 	{ "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "find buffer", mode = "n" },
 	{ "<leader>fn", "<cmd>enew<cr>", desc = "new file", mode = "n" },
+	{
+		"<leader>fr",
+		function()
+			require("grug-far").open({ transient = true })
+		end,
+		desc = "find/replace",
+		mode = "n",
+	},
 
 	{ "<leader>q", "<cmd>qa<cr>", desc = "quit all", mode = "n" },
 	{ "<leader>w", "<cmd>w<cr>", desc = "write", mode = "n" },
@@ -48,7 +56,8 @@ wk.add({
 		desc = "code actions",
 		mode = "n",
 	},
-	{ "<leader>lr", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "references", mode = "n" },
+	{ "<leader>lr", ":IncRename ", desc = "rename", mode = "n" },
+	{ "<leader>lR", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "references", mode = "n" },
 	{ "<leader>ls", "<cmd>Trouble symbols toggle focus=false", desc = "symbols", mode = "n" },
 	{
 		"<leader>lh",
