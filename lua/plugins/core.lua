@@ -29,6 +29,7 @@ return {
 					"pyrefly", -- TODO: Change to ty when possible
 					"rust_analyzer",
 					"lua_ls",
+					"taplo",
 				},
 				handlers = {
 					function(server_name)
