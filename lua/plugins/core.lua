@@ -34,6 +34,46 @@ return {
 					function(server_name)
 						require("lspconfig")[server_name].setup({})
 					end,
+					rust_analyzer = function()
+						require("lspconfig").rust_analyzer.setup({
+							settings = {
+								["rust-analyzer"] = {
+									inlayHints = {
+										bindingModeHints = {
+											enable = false,
+										},
+										chainingHints = {
+											enable = true,
+										},
+										closingBraceHints = {
+											enable = true,
+											minLines = 25,
+										},
+										closureReturnTypeHints = {
+											enable = "never",
+										},
+										lifetimeElisionHints = {
+											enable = "never",
+											useParameterNames = false,
+										},
+										maxLength = 25,
+										parameterHints = {
+											enable = true,
+										},
+										reborrowHints = {
+											enable = "never",
+										},
+										renderColons = true,
+										typeHints = {
+											enable = true,
+											hideClosureInitialization = false,
+											hideNamedConstructor = false,
+										},
+									},
+								},
+							},
+						})
+					end,
 					lua_ls = function()
 						local lua_opts = lsp_zero.nvim_lua_ls()
 						require("lspconfig").lua_ls.setup(lua_opts)
@@ -45,6 +85,8 @@ return {
 			local cmp_format = require("lsp-zero").cmp_format({ details = true })
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip.loaders.from_snipmate").lazy_load()
+			require("luasnip").filetype_extend("rust", { "rustdoc" })
+			require("luasnip").filetype_extend("python", { "pydoc" })
 			cmp.setup({
 				preselect = "item",
 				completion = {
@@ -175,6 +217,11 @@ return {
 			"MunifTanjim/nui.nvim",
 			"rcarriga/nvim-notify",
 		},
+		config = function()
+			require("noice").setup({
+				resets = { inc_rename = true },
+			})
+		end,
 	},
 	{
 		"folke/trouble.nvim",
@@ -183,4 +230,20 @@ return {
 		opts = {},
 	},
 	{ "akinsho/bufferline.nvim", dependencies = "nvim-tree/nvim-web-devicons" },
+	{
+		"vladdoster/remember.nvim",
+		config = function()
+			require("remember")
+		end,
+	},
+	{
+		"smjonas/inc-rename.nvim",
+		opts = {},
+	},
+	{
+		"MagicDuck/grug-far.nvim",
+		config = function()
+			require("grug-far").setup({})
+		end,
+	},
 }

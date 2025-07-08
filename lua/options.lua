@@ -9,4 +9,8 @@ vim.opt.shiftwidth = 0
 vim.opt.wrap = true
 vim.opt.signcolumn = "yes"
 
+vim.opt.clipboard = "unnamedplus"
+
+vim.opt.termguicolors = true
+
 vim.diagnostic.config({ virtual_text = false, virtual_lines = { only_current_line = true } })
