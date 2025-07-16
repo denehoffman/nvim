@@ -121,22 +121,11 @@ return {
 		end,
 	},
 	{
-		"akinsho/bufferline.nvim",
-		dependencies = "nvim-tree/nvim-web-devicons",
-		config = function()
-			require("bufferline").setup({
-				options = {
-					hover = {
-						enabled = true,
-						delay = 200,
-						reveal = { "close" },
-					},
-					indicator = {
-						style = "none",
-					},
-				},
-			})
-		end,
+		"romgrk/barbar.nvim",
+		dependencies = {
+			"lewis6991/gitsigns.nvim",
+			"nvim-tree/nvim-web-devicons",
+		},
 	},
 	{
 		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
@@ -152,6 +141,9 @@ return {
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		config = true,
+	},
+	{
+		"numToStr/Comment.nvim",
 	},
 	{
 		"ibhagwan/fzf-lua",
@@ -230,7 +222,6 @@ return {
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {},
 	},
-	{ "akinsho/bufferline.nvim", dependencies = "nvim-tree/nvim-web-devicons" },
 	{
 		"vladdoster/remember.nvim",
 		config = function()
@@ -245,6 +236,36 @@ return {
 		"MagicDuck/grug-far.nvim",
 		config = function()
 			require("grug-far").setup({})
+		end,
+	},
+	{
+		"goolord/alpha-nvim",
+		config = function()
+			local alpha = require("alpha")
+			local dashboard = require("alpha.themes.dashboard")
+			dashboard.section.header.val = {
+				"      _                           ",
+				"      \\`*-.                       ",
+				"       )  _`-.                    ",
+				"      .  : `. .                   ",
+				"      : _   '  \\                  ",
+				"      ; *` _.   `*-._             ",
+				"      `-.-'          `-.          ",
+				"        ;       `       `.        ",
+				"        :.       .        \\       ",
+				"        . \\  .   :   .-'   .      ",
+				"        '  `+.;  ;  '      :      ",
+				"        :  '  |    ;       ;-.    ",
+				"        ; '   : :`-:     _.`* ;   ",
+				"[bug] .*' /  .*' ; .*`- +'  `*'   ",
+				"      `*-*   `*-*  `*-*'          ",
+			}
+			dashboard.section.buttons.val = {
+				dashboard.button("n", " 📝 New File", "<cmd>enew<cr>"),
+				dashboard.button("f", " 🔍 Find File", "<cmd>FzfLua files<cr>"),
+				dashboard.button("r", " 🕘 Recent Files", "<cmd>FzfLua oldfiles<cr>"),
+			}
+			alpha.setup(dashboard.opts)
 		end,
 	},
 }

@@ -2,9 +2,10 @@ local wk = require("which-key")
 
 wk.add({
 	{ "<leader><leader>", "<cmd>FzfLua grep_project<cr>", desc = "search project" },
+	{ "<leader><space>", "<cmd>Alpha<cr>", desc = "show dashboard" },
 	{ "<esc><esc>", "<cmd>noh<cr>", hidden = true },
-	{ "H", "<cmd>bp<cr>", hidden = true },
-	{ "L", "<cmd>bn<cr>", hidden = true },
+	{ "H", "<cmd>BufferPrevious<cr>", hidden = true },
+	{ "L", "<cmd>BufferNext<cr>", hidden = true },
 	{
 		"<leader>e",
 		function(opts)
@@ -41,7 +42,8 @@ wk.add({
 
 	{ "<leader>q", "<cmd>qa<cr>", desc = "quit all", mode = "n" },
 	{ "<leader>w", "<cmd>w<cr>", desc = "write", mode = "n" },
-	{ "<leader>x", "<cmd>bdelete<cr>", desc = "close buffer", mode = "n" },
+	{ "<leader>x", "<cmd>BufferClose<cr>", desc = "close buffer", mode = "n" },
+	{ "<leader>X", "<cmd>BufferRestore<cr>", desc = "restore buffer", mode = "n" },
 	{ "<leader>c", "<cmd>close<cr>", desc = "close window", mode = "n" },
 
 	{ "<leader>l", group = "lsp" },
@@ -58,13 +60,14 @@ wk.add({
 	},
 	{ "<leader>lr", ":IncRename ", desc = "rename", mode = "n" },
 	{ "<leader>lR", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "references", mode = "n" },
-	{ "<leader>ls", "<cmd>Trouble symbols toggle focus=false", desc = "symbols", mode = "n" },
+	{ "<leader>ls", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "symbols", mode = "n" },
 	{
 		"<leader>lh",
 		require("lsp_lines").toggle,
 		desc = "toggle inline diagnostics",
 		mode = "n",
 	},
+	{ "<leader>lt", "<cmd>Trouble todo toggle<cr>", desc = "todos", mode = "n" },
 
 	{ "<leader>t", group = "terminal" },
 	{
@@ -107,6 +110,7 @@ Snacks.toggle.indent():map("<leader>ug")
 Snacks.toggle.scroll():map("<leader>uS")
 Snacks.toggle.profiler():map("<leader>dpp")
 Snacks.toggle.profiler_highlights():map("<leader>dph")
+Snacks.toggle.zen():map("<leader>uz")
 
 if vim.lsp.inlay_hint then
 	Snacks.toggle.inlay_hints():map("<leader>uh")
