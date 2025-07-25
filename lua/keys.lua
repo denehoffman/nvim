@@ -87,8 +87,7 @@ wk.add({
 	{ "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", desc = "signature", mode = "n" },
 
 	{ "<leader>u", group = "ui" },
-	{ "<leader>p", group = "plugins" },
-	{ "<leader>pl", "<cmd>Lazy<cr>", desc = "lazy", mode = "n" },
+	{ "<leader>p", "<cmd>Lazy<cr>", desc = "lazy", mode = "n" },
 })
 
 Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
