@@ -26,7 +26,8 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"ruff",
-					"pyrefly", -- TODO: Change to ty when possible
+					-- "pyrefly", -- TODO: Change to ty when possible
+					"ty",
 					"rust_analyzer",
 					"lua_ls",
 					"taplo",
