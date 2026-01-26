@@ -8,9 +8,24 @@ return {
 				log_level = vim.log.levels.WARN,
 				filetype = {
 					lua = { require("formatter.filetypes.lua").stylua },
-					python = { require("formatter.filetypes.python").ruff },
+					python = {
+						function()
+							return {
+								exe = "ruff",
+								args = {
+									"format",
+									"--stdin-filename",
+									vim.api.nvim_buf_get_name(0), -- important for .pyi
+									"-q",
+									"-",
+								},
+								stdin = true,
+							}
+						end,
+					},
 					cpp = { require("formatter.filetypes.cpp").clangformat },
 					rust = { require("formatter.filetypes.rust").rustfmt },
+					json = { require("formatter.filetypes.json").prettier },
 					["*"] = { require("formatter.filetypes.any").remove_trailing_whitespace },
 				},
 			})
