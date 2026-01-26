@@ -10,7 +10,15 @@ return {
 					lua = { require("formatter.filetypes.lua").stylua },
 					python = { require("formatter.filetypes.python").ruff },
 					cpp = { require("formatter.filetypes.cpp").clangformat },
-					rust = { require("formatter.filetypes.rust").rustfmt },
+					rust = {
+						function()
+							return {
+								exe = "rustfmt",
+								args = { "--edition", "2024" },
+								stdin = true,
+							}
+						end,
+					},
 					["*"] = { require("formatter.filetypes.any").remove_trailing_whitespace },
 				},
 			})

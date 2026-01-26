@@ -40,6 +40,9 @@ return {
 						require("lspconfig").rust_analyzer.setup({
 							settings = {
 								["rust-analyzer"] = {
+									check = {
+										workspace = false,
+									},
 									inlayHints = {
 										bindingModeHints = {
 											enable = false,
@@ -214,6 +217,15 @@ return {
 		config = function()
 			require("noice").setup({
 				resets = { inc_rename = true },
+			})
+		end,
+	},
+	{
+		"rcarriga/nvim-notify",
+		config = function()
+			require("notify").setup({
+				timeout = 1000,
+				stages = "static",
 			})
 		end,
 	},
