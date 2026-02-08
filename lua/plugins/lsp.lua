@@ -33,6 +33,9 @@ return {
 				},
 				handlers = {
 					function(server_name)
+						if server_name == "nushell" then
+							return
+						end
 						require("lspconfig")[server_name].setup({})
 					end,
 					rust_analyzer = function()
@@ -84,6 +87,12 @@ return {
 					end,
 				},
 			})
+			if vim.lsp.config and vim.lsp.enable then
+				vim.lsp.config("nushell", {})
+				vim.lsp.enable("nushell")
+			else
+				require("lspconfig").nushell.setup({})
+			end
 			local cmp = require("cmp")
 			local cmp_action = require("lsp-zero").cmp_action()
 			local cmp_format = require("lsp-zero").cmp_format({ details = true })
@@ -117,115 +126,9 @@ return {
 		end,
 	},
 	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("lualine").setup({})
-		end,
-	},
-	{
-		"romgrk/barbar.nvim",
-		dependencies = {
-			"lewis6991/gitsigns.nvim",
-			"nvim-tree/nvim-web-devicons",
-		},
-	},
-	{
 		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
 		config = function()
 			require("lsp_lines").setup()
-		end,
-	},
-	{
-		"tpope/vim-sleuth",
-		event = { "BufReadPost", "BufNewFile" },
-	},
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = true,
-	},
-	{
-		"numToStr/Comment.nvim",
-	},
-	{
-		"ibhagwan/fzf-lua",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = {},
-	},
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("catppuccin").setup({
-				flavour = "mocha",
-				integrations = {
-					treesitter = true,
-					native_lsp = { enabled = true },
-					telescope = true,
-					which_key = true,
-					cmp = true,
-				},
-			})
-			vim.cmd.colorscheme("catppuccin")
-		end,
-	},
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		event = { "BufReadPost", "BufNewFile" },
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = {
-					"lua",
-					"python",
-					"cpp",
-					"bash",
-					"json",
-					"yaml",
-					"markdown",
-					"rust",
-				},
-				highlight = {
-					enable = true,
-				},
-				indent = {
-					enable = true,
-				},
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "gnn",
-						node_incremental = "grn",
-						node_decremental = "grm",
-					},
-				},
-			})
-		end,
-	},
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {},
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
-		},
-		config = function()
-			require("noice").setup({
-				resets = { inc_rename = true },
-			})
-		end,
-	},
-	{
-		"rcarriga/nvim-notify",
-		config = function()
-			require("notify").setup({
-				timeout = 1000,
-				stages = "static",
-			})
 		end,
 	},
 	{
@@ -235,49 +138,7 @@ return {
 		opts = {},
 	},
 	{
-		"vladdoster/remember.nvim",
-		config = function()
-			require("remember")
-		end,
-	},
-	{
 		"smjonas/inc-rename.nvim",
 		opts = {},
-	},
-	{
-		"MagicDuck/grug-far.nvim",
-		config = function()
-			require("grug-far").setup({})
-		end,
-	},
-	{
-		"goolord/alpha-nvim",
-		config = function()
-			local alpha = require("alpha")
-			local dashboard = require("alpha.themes.dashboard")
-			dashboard.section.header.val = {
-				"      _                           ",
-				"      \\`*-.                       ",
-				"       )  _`-.                    ",
-				"      .  : `. .                   ",
-				"      : _   '  \\                  ",
-				"      ; *` _.   `*-._             ",
-				"      `-.-'          `-.          ",
-				"        ;       `       `.        ",
-				"        :.       .        \\       ",
-				"        . \\  .   :   .-'   .      ",
-				"        '  `+.;  ;  '      :      ",
-				"        :  '  |    ;       ;-.    ",
-				"        ; '   : :`-:     _.`* ;   ",
-				"[bug] .*' /  .*' ; .*`- +'  `*'   ",
-				"      `*-*   `*-*  `*-*'          ",
-			}
-			dashboard.section.buttons.val = {
-				dashboard.button("n", " 📝 New File", "<cmd>enew<cr>"),
-				dashboard.button("f", " 🔍 Find File", "<cmd>FzfLua files<cr>"),
-				dashboard.button("r", " 🕘 Recent Files", "<cmd>FzfLua oldfiles<cr>"),
-			}
-			alpha.setup(dashboard.opts)
-		end,
 	},
 }
