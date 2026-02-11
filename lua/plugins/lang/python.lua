@@ -2,6 +2,9 @@ return {
 	{
 		"benomahony/uv.nvim",
 		ft = { "python" },
-		opts = { picker_integration = true },
+		opts = {
+			picker_integration = true,
+			keymaps = { prefix = "<leader>r" },
+		},
 	},
 }
