@@ -8,4 +8,7 @@ return {
 	{ import = "plugins.ai" },
 	{ import = "plugins.git" },
 	{ import = "plugins.lang" },
+	{ import = "plugins.navigation" },
+	{ import = "plugins.testing" },
+	{ import = "plugins.debugging" },
 }

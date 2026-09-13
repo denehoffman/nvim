@@ -1,5 +1,5 @@
 -- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.env.DENE_NIX_LAZY_PATH or (vim.fn.stdpath("data") .. "/lazy/lazy.nvim")
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
 	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
@@ -26,9 +26,16 @@ require("lazy").setup({
 	spec = {
 		{ import = "plugins.init" },
 	},
+	dev = vim.env.DENE_NIX_PLUGIN_ROOT and {
+		path = vim.env.DENE_NIX_PLUGIN_ROOT,
+		patterns = { "." },
+		fallback = false,
+	} or nil,
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
-	install = { colorscheme = { "catppuccin" } },
-	-- automatically check for plugin updates
-	checker = { enabled = true },
+	install = { colorscheme = { "catppuccin" }, missing = true },
+	-- Updates are deliberate. Use :PluginsUpdate when you want to change the lock.
+	checker = { enabled = false },
+	change_detection = { notify = false },
+	performance = { rtp = { reset = false } },
 })

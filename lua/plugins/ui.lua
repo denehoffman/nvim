@@ -65,6 +65,7 @@ return {
 		---@type snacks.Config
 		opts = {
 			animate = {},
+			dashboard = {},
 			dim = {},
 			explorer = {},
 			indent = {},
@@ -92,35 +93,5 @@ return {
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {},
-	},
-	{
-		"goolord/alpha-nvim",
-		config = function()
-			local alpha = require("alpha")
-			local dashboard = require("alpha.themes.dashboard")
-			dashboard.section.header.val = {
-				"      _                           ",
-				"      \\`*-.                       ",
-				"       )  _`-.                    ",
-				"      .  : `. .                   ",
-				"      : _   '  \\                  ",
-				"      ; *` _.   `*-._             ",
-				"      `-.-'          `-.          ",
-				"        ;       `       `.        ",
-				"        :.       .        \\       ",
-				"        . \\  .   :   .-'   .      ",
-				"        '  `+.;  ;  '      :      ",
-				"        :  '  |    ;       ;-.    ",
-				"        ; '   : :`-:     _.`* ;   ",
-				"[bug] .*' /  .*' ; .*`- +'  `*'   ",
-				"      `*-*   `*-*  `*-*'          ",
-			}
-			dashboard.section.buttons.val = {
-				dashboard.button("n", " 📝 New File", "<cmd>enew<cr>"),
-				dashboard.button("f", " 🔍 Find File", "<cmd>FzfLua files<cr>"),
-				dashboard.button("r", " 🕘 Recent Files", "<cmd>FzfLua oldfiles<cr>"),
-			}
-			alpha.setup(dashboard.opts)
-		end,
 	},
 }

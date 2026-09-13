@@ -1,8 +1,20 @@
 local wk = require("which-key")
 
 wk.add({
-	{ "<leader><leader>", "<cmd>FzfLua grep_project<cr>", desc = "search project" },
-	{ "<leader><space>", "<cmd>Alpha<cr>", desc = "show dashboard" },
+	{
+		"<leader><leader>",
+		function()
+			Snacks.picker.grep()
+		end,
+		desc = "search project",
+	},
+	{
+		"<leader><space>",
+		function()
+			Snacks.dashboard.open()
+		end,
+		desc = "show dashboard",
+	},
 	{ "<esc><esc>", "<cmd>noh<cr>", hidden = true },
 	{ "H", "<cmd>BufferPrevious<cr>", hidden = true },
 	{ "L", "<cmd>BufferNext<cr>", hidden = true },
@@ -28,8 +40,38 @@ wk.add({
 	{ "<leader>sl", "<cmd>rightbelow vsplit<cr>", desc = "split to right" },
 
 	{ "<leader>f", group = "file" },
-	{ "<leader>ff", "<cmd>FzfLua files<cr>", desc = "find file", mode = "n" },
-	{ "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "find buffer", mode = "n" },
+	{
+		"<leader>ff",
+		function()
+			Snacks.picker.files()
+		end,
+		desc = "find file",
+		mode = "n",
+	},
+	{
+		"<leader>fb",
+		function()
+			Snacks.picker.buffers()
+		end,
+		desc = "find buffer",
+		mode = "n",
+	},
+	{
+		"<leader>fp",
+		function()
+			Snacks.picker.projects()
+		end,
+		desc = "find project",
+		mode = "n",
+	},
+	{
+		"<leader>fo",
+		function()
+			Snacks.picker.recent()
+		end,
+		desc = "recent files",
+		mode = "n",
+	},
 	{ "<leader>fn", "<cmd>enew<cr>", desc = "new file", mode = "n" },
 	{
 		"<leader>fr",
@@ -47,6 +89,9 @@ wk.add({
 	{ "<leader>c", "<cmd>close<cr>", desc = "close window", mode = "n" },
 
 	{ "<leader>l", group = "lsp" },
+	{ "<leader>a", group = "AI" },
+	{ "<leader>d", group = "debug" },
+	{ "<leader>g", group = "git" },
 	{ "<leader>ld", "<cmd>Trouble diagnostics toggle<cr>", desc = "workspace diagnostics", mode = "n" },
 	{ "<leader>lw", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "buffer diagnostics", mode = "n" },
 	{ "<leader>lQ", "<cmd>Trouble qflist toggle<cr>", desc = "quickfix list", mode = "n" },
@@ -68,12 +113,15 @@ wk.add({
 		mode = "n",
 	},
 	{ "<leader>lt", "<cmd>Trouble todo toggle<cr>", desc = "todos", mode = "n" },
+	{ "<leader>lo", "<cmd>AerialToggle<cr>", desc = "code outline", mode = "n" },
+	{ "<leader>lc", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "switch C/C++ source/header", mode = "n" },
+	{ "<leader>lC", "<cmd>CppHealth<cr>", desc = "check C/C++ project", mode = "n" },
 
 	{ "<leader>t", group = "terminal" },
 	{
 		"<leader>tt",
 		function()
-			Snacks.terminal.toggle(cmd, opts)
+			Snacks.terminal.toggle()
 		end,
 		desc = "toggle terminal",
 		mode = { "n", "t" },
@@ -87,7 +135,9 @@ wk.add({
 	{ "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", desc = "signature", mode = "n" },
 
 	{ "<leader>u", group = "ui" },
-	{ "<leader>p", "<cmd>Lazy<cr>", desc = "lazy", mode = "n" },
+	{ "<leader>p", group = "plugins" },
+	{ "<leader>pp", "<cmd>Lazy<cr>", desc = "plugin manager", mode = "n" },
+	{ "<leader>pu", "<cmd>PluginsUpdate<cr>", desc = "update plugins", mode = "n" },
 })
 
 Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")

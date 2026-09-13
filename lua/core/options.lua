@@ -8,6 +8,8 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 0
 vim.opt.wrap = true
 vim.opt.signcolumn = "yes"
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
 
 vim.opt.clipboard = "unnamedplus"
 

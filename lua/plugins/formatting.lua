@@ -1,64 +1,49 @@
 return {
 	{
-		"mhartington/formatter.nvim",
-		config = function()
-			-- Formatter setup
-			require("formatter").setup({
-				logging = true,
-				log_level = vim.log.levels.WARN,
-				filetype = {
-					lua = { require("formatter.filetypes.lua").stylua },
-					python = {
-						function()
-							return {
-								exe = "ruff",
-								args = {
-									"format",
-									"--stdin-filename",
-									vim.api.nvim_buf_get_name(0), -- important for .pyi
-									"-q",
-									"-",
-								},
-								stdin = true,
-							}
-						end,
-					},
-					cpp = { require("formatter.filetypes.cpp").clangformat },
-					json = { require("formatter.filetypes.json").prettier },
-					rust = {
-						function()
-							return {
-								exe = "rustfmt",
-								args = { "--edition", "2024" },
-								stdin = true,
-							}
-						end,
-					},
-					["*"] = { require("formatter.filetypes.any").remove_trailing_whitespace },
-				},
-			})
-
-			-- Format-on-save toggle variable
-			vim.g.format_on_save = true
-
-			-- Autocmd group to allow clearing
-			local group = vim.api.nvim_create_augroup("FormatAutogroup", { clear = true })
-
-			vim.api.nvim_create_autocmd("BufWritePost", {
-				group = group,
-				pattern = "*",
-				callback = function()
-					if vim.g.format_on_save then
-						vim.cmd("FormatWrite")
-					end
+		"stevearc/conform.nvim",
+		event = "BufWritePre",
+		cmd = "ConformInfo",
+		keys = {
+			{
+				"<leader>lf",
+				function()
+					require("conform").format({ async = true, lsp_format = "fallback" })
 				end,
-			})
-
-			-- Toggle command
-			vim.api.nvim_create_user_command("FormatToggle", function()
-				vim.g.format_on_save = not vim.g.format_on_save
-				print("Format on save: " .. (vim.g.format_on_save and "enabled" or "disabled"))
-			end, {})
+				desc = "format buffer",
+				mode = { "n", "v" },
+			},
+		},
+		opts = {
+			formatters_by_ft = {
+				bib = { "bibtex_tidy" },
+				c = { "clang_format" },
+				cpp = { "clang_format" },
+				json = { "prettier", stop_after_first = true },
+				lua = { "stylua" },
+				nix = { "nixfmt" },
+				python = { "ruff_format" },
+				rust = { "rustfmt", lsp_format = "fallback" },
+			},
+			format_on_save = function(bufnr)
+				if vim.b[bufnr].disable_autoformat or vim.g.disable_autoformat then
+					return nil
+				end
+				return { timeout_ms = 1000, lsp_format = "fallback" }
+			end,
+			formatters = {
+				bibtex_tidy = { prepend_args = { "--v2", "--quiet", "--sort-fields", "--blank-lines" } },
+			},
+		},
+		init = function()
+			vim.api.nvim_create_user_command("FormatToggle", function(args)
+				if args.bang then
+					vim.b.disable_autoformat = not vim.b.disable_autoformat
+					vim.notify("Buffer format on save: " .. (vim.b.disable_autoformat and "off" or "on"))
+				else
+					vim.g.disable_autoformat = not vim.g.disable_autoformat
+					vim.notify("Format on save: " .. (vim.g.disable_autoformat and "off" or "on"))
+				end
+			end, { bang = true, desc = "Toggle format on save; ! limits it to this buffer" })
 		end,
 	},
 }

@@ -9,9 +9,6 @@ return {
 		config = true,
 	},
 	{
-		"numToStr/Comment.nvim",
-	},
-	{
 		"vladdoster/remember.nvim",
 		config = function()
 			require("remember")
