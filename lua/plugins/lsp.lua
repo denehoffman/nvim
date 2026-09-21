@@ -27,6 +27,7 @@ return {
 				},
 			})
 			vim.lsp.config("ruff", { init_options = { settings = { organizeImports = true } } })
+			vim.lsp.config("ty", { init_options = { experimental = { useUv = "scripts" } } })
 			vim.lsp.enable(servers)
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("dene_clangd_health", { clear = true }),
