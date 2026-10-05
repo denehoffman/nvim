@@ -113,6 +113,7 @@
             with pkgs;
             [
               bash
+              bibtex-tidy
               cargo
               clang-tools
               cmake
