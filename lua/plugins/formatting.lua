@@ -15,7 +15,7 @@ return {
 		},
 		opts = {
 			formatters_by_ft = {
-				bib = { "bibtex_tidy" },
+				bib = { "bibtex-tidy" },
 				c = { "clang_format" },
 				cpp = { "clang_format" },
 				json = { "prettier", stop_after_first = true },
@@ -31,7 +31,7 @@ return {
 				return { timeout_ms = 1000, lsp_format = "fallback" }
 			end,
 			formatters = {
-				bibtex_tidy = { prepend_args = { "--v2", "--quiet", "--sort-fields", "--blank-lines" } },
+				["bibtex-tidy"] = { prepend_args = { "--v2", "--quiet", "--sort-fields", "--blank-lines" } },
 			},
 		},
 		init = function()
