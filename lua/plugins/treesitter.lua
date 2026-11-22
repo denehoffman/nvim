@@ -4,6 +4,7 @@ local languages = {
 	"c",
 	"cpp",
 	"json",
+	"latex",
 	"lua",
 	"markdown",
 	"markdown_inline",
@@ -30,6 +31,10 @@ return {
 			end
 			vim.api.nvim_create_autocmd("FileType", {
 				callback = function(args)
+					-- VimTeX syntax and indentation are used for LaTeX. The parser serves hover previews.
+					if args.match == "tex" then
+						return
+					end
 					pcall(vim.treesitter.start, args.buf)
 					vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 				end,

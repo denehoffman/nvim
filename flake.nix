@@ -134,6 +134,8 @@
               rustfmt
               stylua
               taplo
+              tex-fmt
+              texlab
               tree-sitter
               ty
               uv
@@ -141,6 +143,7 @@
             ++ lib.optionals stdenv.hostPlatform.isLinux [ gdb ];
           generatedInit = pkgs.writeText "dene-neovim-init.lua" ''
             vim.opt.runtimepath:prepend(${builtins.toJSON configRoot})
+            vim.opt.runtimepath:append(${builtins.toJSON "${pkgs.vimPlugins.nvim-treesitter-parsers.latex}"})
             dofile(${builtins.toJSON "${configRoot}/init.lua"})
           '';
           neovim = pkgs.symlinkJoin {

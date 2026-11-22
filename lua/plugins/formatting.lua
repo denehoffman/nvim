@@ -23,6 +23,7 @@ return {
 				nix = { "nixfmt" },
 				python = { "ruff_format" },
 				rust = { "rustfmt", lsp_format = "fallback" },
+				tex = { "tex-fmt" },
 			},
 			format_on_save = function(bufnr)
 				if vim.b[bufnr].disable_autoformat or vim.g.disable_autoformat then
@@ -32,6 +33,7 @@ return {
 			end,
 			formatters = {
 				["bibtex-tidy"] = { prepend_args = { "--v2", "--quiet", "--sort-fields", "--blank-lines" } },
+				["tex-fmt"] = { prepend_args = { "--nowrap" } },
 			},
 		},
 		init = function()

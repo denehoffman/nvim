@@ -28,6 +28,24 @@ return {
 			})
 			vim.lsp.config("ruff", { init_options = { settings = { organizeImports = true } } })
 			vim.lsp.config("ty", { init_options = { experimental = { useUv = "scripts" } } })
+			if vim.fn.executable("texlab") == 1 then
+				vim.lsp.config("texlab", {
+					root_markers = {
+						{ ".texlabroot", "texlabroot", ".latexmkrc", "latexmkrc", "Tectonic.toml" },
+						"main.tex",
+						".git",
+					},
+					settings = {
+						texlab = {
+							build = { onSave = false },
+							chktex = { onOpenAndSave = vim.fn.executable("chktex") == 1 },
+							latexFormatter = "none",
+							bibtexFormatter = "none",
+						},
+					},
+				})
+				vim.lsp.enable("texlab")
+			end
 			vim.lsp.enable(servers)
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("dene_clangd_health", { clear = true }),
@@ -57,15 +75,16 @@ return {
 			require("luasnip.loaders.from_vscode").lazy_load()
 			luasnip.filetype_extend("rust", { "rustdoc" })
 			luasnip.filetype_extend("python", { "pydoc" })
+			local sources = cmp.config.sources({
+				{ name = "codeium", priority = 80 },
+				{ name = "nvim_lsp", priority = 70 },
+				{ name = "luasnip", priority = 60 },
+				{ name = "path", priority = 50 },
+			}, { { name = "buffer", priority = 20 } })
 			cmp.setup({
 				completion = { completeopt = "menu,menuone,noinsert" },
 				preselect = cmp.PreselectMode.Item,
-				sources = cmp.config.sources({
-					{ name = "codeium", priority = 80 },
-					{ name = "nvim_lsp", priority = 70 },
-					{ name = "luasnip", priority = 60 },
-					{ name = "path", priority = 50 },
-				}, { { name = "buffer", priority = 20 } }),
+				sources = sources,
 				mapping = cmp.mapping.preset.insert({
 					["<C-n>"] = cmp.mapping.select_next_item(),
 					["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -95,6 +114,11 @@ return {
 						luasnip.lsp_expand(args.body)
 					end,
 				},
+			})
+			cmp.setup.filetype({ "tex", "plaintex", "bib" }, {
+				sources = vim.tbl_filter(function(source)
+					return source.name ~= "codeium"
+				end, sources),
 			})
 		end,
 	},
