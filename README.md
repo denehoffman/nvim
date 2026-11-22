@@ -192,6 +192,70 @@ Diagnostics appear as signs and a virtual line for the current line. Use
 `]d`/`[d` for normal Neovim diagnostic navigation, `;lw` for the current
 buffer list, or `;ld` for the whole workspace.
 
+## LaTeX
+
+VimTeX runs `latexmk` in continuous mode when you start a build. It follows
+the root document and rebuilds when included `.tex`, bibliography, or graphics
+files change. Set the engine in the root file with `% !TeX program = lualatex`
+or use the project's `.latexmkrc`. For an included file that VimTeX cannot
+associate with its project, add `% !TeX root = ../main.tex` with the correct
+relative path. If only Tectonic is available, `\ll` runs a single build.
+
+| Keys | Action |
+| --- | --- |
+| `\ll` | Start or stop the `latexmk` watch session |
+| `\lS` | Build once |
+| `\lv` | Open the PDF at the current source position via SyncTeX |
+| `\le` | Open the quickfix list for build errors and warnings |
+| `\lo` | Show compiler output in the current window. Press `q` to return |
+| `\lf` / `\lt` | Search the project outline with Snacks or open VimTeX's contents list |
+| `]n` / `[n` | Move between math regions |
+| `]r` / `[r` | Move between Beamer frames |
+| `\lp` | Preview an equation or linked graphic under the cursor |
+| `;lf` | Run `tex-fmt` immediately |
+
+TexLab supplies citation and label completion in the existing completion menu.
+Use `gd` on a citation or reference to jump to its entry or label, and `K` to
+inspect it. When `chktex` is on `PATH`, TexLab also checks LaTeX on open and save.
+Windsurf is off in TeX and BibTeX buffers. Builds populate quickfix without
+opening a split. Conform runs `tex-fmt` on save with line wrapping disabled.
+Use `;us` to toggle Neovim's spell checking while editing prose.
+
+Type a snippet trigger, select it in the completion menu, and press `Enter`.
+With the menu closed, `Tab` and `Shift-Tab` move between placeholders.
+
+| Trigger | Inserts |
+| --- | --- |
+| `mfrac`, `mpart`, `mmat` | Fraction, partial derivative, or 2×2 matrix inside math |
+| `lalign`, `lqty` | Labeled `align` block or `siunitx` v3 quantity |
+| `lfig`, `lplot` | `graphicx` figure or a `pgfplots` plot from a CSV |
+| `lframe`, `lcols` | Beamer frame or two columns inside a frame |
+
+Load the packages required by each snippet in your preamble, including `amsmath`
+for matrices and `align`. `\lp` uses the LaTeX Treesitter parser and needs a
+Kitty graphics terminal such as Kitty or Ghostty. Use an explicit file extension
+in `\includegraphics` for hover previews. Paths can be relative to the main
+document, including when editing a chapter in a subdirectory. Install
+ImageMagick for format conversion, with a PDF delegate such as Ghostscript for
+PDF assets and rendered equations. Math preview also needs `pdflatex` with
+`standalone` and the AMS packages, or Tectonic. For custom macros or a TikZ
+figure, use the compiled PDF.
+
+The Nix wrapper provides `texlab` and `tex-fmt` on Linux and Apple Silicon
+macOS. For plain `nvim`, put both tools on `PATH` (`brew install texlab tex-fmt`
+on macOS). Use your project's TeX Live toolchain or MacTeX, and put its
+`latexmk` and engine on `PATH`. The viewer is Zathura with a SyncTeX-capable
+PDF backend on Linux and Skim on macOS. For reverse search in Skim, create a
+Custom sync preset with the absolute path to `nvim` as the command. Paste the
+following into Arguments.
+
+```text
+--headless -c "VimtexInverseSearch %line '%file'"
+```
+
+Then use Shift-Command-click in the PDF. Use `:VimtexInfo`, `:checkhealth vimtex`,
+and `:ConformInfo` to check the selected tools.
+
 ## C and C++
 
 clangd provides completion, cross-references, semantic diagnostics,
